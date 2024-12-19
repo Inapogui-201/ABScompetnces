@@ -1,138 +1,39 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import {
-  GraduationCap,
-  Stethoscope,
-  TicketCheck,
-  Globe,
-  ChevronRight,
-} from "lucide-react";
-
-const ServiceCard = ({
-  icon: Icon,
-  title,
-  services,
-  color,
-  isExpanded,
-  onClick,
-}) => {
+import React from 'react';
+import IMAG from '../assets/images/ddd.jpg'
+const AboutSection = () => {
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 transition-all duration-300 hover:shadow-xl">
-      <div className="flex items-center mb-4 cursor-pointer" onClick={onClick}>
-        <Icon size={40} className={`mr-4 ${color}`} />
-        <h3 className="text-xl font-semibold text-gray-800 flex-grow">
-          {title}
-        </h3>
-        <ChevronRight
-          size={24}
-          className={`transform transition-transform duration-300 ${
-            isExpanded ? "rotate-90" : ""
-          } ${color}`}
-        />
-      </div>
+    <div className="bg-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row items-center gap-12">
+          {/* Image à gauche */}
+          <div className="lg:w-1/2">
+            <div className="relative">
+              <img
+                src={IMAG}
+                alt="ABS Competences Services"
+                className="w-full h-full object-cover rounded-2xl shadow-xl"
+              />
+              {/* Élément décoratif */}
+              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-red-100 rounded-2xl -z-10"></div>
+            </div>
+          </div>
 
-      {isExpanded && (
-        <ul className="pl-4 mt-2 space-y-2 text-gray-600">
-          {services.map((service, index) => (
-            <li key={index} className="flex items-center">
-              <span className="mr-2 text-sm">•</span>
-              {service}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-ServiceCard.propTypes = {
-  icon: PropTypes.elementType.isRequired,
-  title: PropTypes.string.isRequired,
-  services: PropTypes.arrayOf(PropTypes.string).isRequired,
-  color: PropTypes.string.isRequired,
-  isExpanded: PropTypes.bool,
-  onClick: PropTypes.func,
-};
-
-const MultiServices = () => {
-  const [expandedIndex, setExpandedIndex] = useState([0, 1, 2, 3]);
-
-  const servicesData = [
-    {
-      icon: GraduationCap,
-      title: "Services Études à l'Étranger",
-      services: [
-        "Admission",
-        "Inscription",
-        "Assistance Visa",
-        "Accueil et Installation",
-        "Assistance administrative",
-        "Assistance d'installation légale (Carte de séjour)",
-      ],
-      color: "text-blue-600",
-    },
-    {
-      icon: Globe,
-      title: "Services Touristiques",
-      services: [
-        "Orientation",
-        "Assistance avant et après le voyage",
-        "Assistance Visa",
-        "Hébergement et Installation",
-        "Voyages et expériences culturelles",
-      ],
-      color: "text-green-600",
-    },
-    {
-      icon: Stethoscope,
-      title: "Évacuation Sanitaire",
-      services: [
-        "Orientation médicale",
-        "Assistance médicale avant et après le voyage",
-        "Accompagnement médical",
-        "Assistance Visa",
-        "Accueil et Installation",
-      ],
-      color: "text-red-600",
-    },
-    {
-      icon: TicketCheck,
-      title: "Billetterie",
-      services: [
-        "Vols vers toutes destinations",
-        "Compagnies : Air Maroc, Air Ivoire, Turkish Airlines",
-        "Air France, Air Sénégal, Ethiopian Airlines",
-        "TAC, ECair, Canadian Airlines",
-      ],
-      color: "text-purple-600",
-    },
-  ];
-
-  const handleCardClick = (index) => {
-    setExpandedIndex((prevIndexes) =>
-      prevIndexes.includes(index)
-        ? prevIndexes.filter((i) => i !== index)
-        : [...prevIndexes, index]
-    );
-  };
-
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">
-        Nos Services
-      </h2>
-      <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
-        {servicesData.map((service, index) => (
-          <ServiceCard
-            key={index}
-            {...service}
-            isExpanded={expandedIndex.includes(index)}
-            onClick={() => handleCardClick(index)}
-          />
-        ))}
+          {/* Texte à droite */}
+          <div className="lg:w-1/2 space-y-6">
+            <div className="prose prose-lg">
+              <p className="text-lg leading-relaxed text-gray-700">
+                En conjuguant les compétences de nos métiers, nous couvrons l&apos;ensemble des services en Conseil et Formation. Le Conseil chez{' '}
+                <strong className="text-red-600">ABS COMPETENCES</strong> est construit autour de 6 pôles.
+              </p>
+            </div>
+            
+            {/* Élément décoratif */}
+            <div className="w-20 h-1 bg-red-600 rounded-full"></div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default MultiServices;
+export default AboutSection;

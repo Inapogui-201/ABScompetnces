@@ -1,165 +1,149 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import IMAGE from '../assets/images/image.png';
+import IMAGES from '../assets/images/horizon2.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faTwitter, faLinkedinIn, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope, faPhone, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navItems2 = [
-    {
-      title: "Acceuil",
-      secure: "link",
-      Link: "/",
-    },
-    {
-      title: "A propos",
-      Link: "/a-propos",
-      secure: "link",
-    },
-    {
-      title: "Destinations",
-      secure: "link",
-      Link: "/destination",
-    },
-    {
-      title: "Contact",
-      secure: "a",
-      Link: "/",
-    },
-    {
-      title: "Temoignage",
-      secure: "a",
-      Link: "/#temoignage",
-    },
-    {
-      title: "Service",
-      secure: "link",
-      Link: "/service",
-    },
+const NavigationBar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const menuItems = [
+    { label: 'Home', path: '/' },
+    { label: 'Training', path: '/training' },
+    { label: 'Consulting', path: '/consulting' },
+    { label: 'Coaching', path: '/coaching' },
+    { label: 'Team Building', path: '/team-building' },
+    { label: 'Contact', path: '/contact' },
   ];
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const socialIcons = [
+    { icon: faFacebookF, link: '#', color: '#1877F2' },
+    { icon: faTwitter, link: '#', color: '#1DA1F2' },
+    { icon: faLinkedinIn, link: '#', color: '#0A66C2' },
+    { icon: faInstagram, link: '#', color: '#E4405F' },
+  ];
 
   return (
-    <div className="fixed top-0 w-full z-50">
-      <div className="absolute inset-0 bg-white/30 backdrop-blur-md border-b border-white/20"></div>
-      <nav className="relative px-4 py-3">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo et nom */}
-          <Link to={"/"} className="flex items-center space-x-3">
-            <img
-              src="/images/logo.png"
-              alt="GTour Logo"
-              className="w-12 h-12 md:w-20 md:h-20 rounded-lg"
-            />
-          </Link>
-
-          {/* Mobile Menu Toggle */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="text-black focus:outline-none"
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white shadow-md' : 'bg-transparent'
+      }`}
+    >
+      {/* Top Bar */}
+      <div className="hidden md:flex justify-between items-center px-6 py-2 bg-gradient-to-r from-red-50 to-white">
+        <img src={IMAGES} alt="Brand" className="w-48 hover:opacity-90 transition-opacity" />
+        <div className="flex space-x-6">
+          <a href="mailto:contact@abscompetences.com" className="flex items-center text-sm space-x-2 text-gray-700 hover:text-red-600">
+            <FontAwesomeIcon icon={faEnvelope} />
+            <span>contact@abscompetences.com</span>
+          </a>
+          <a href="tel:+212522305236" className="flex items-center text-sm space-x-2 text-gray-700 hover:text-red-600">
+            <FontAwesomeIcon icon={faPhone} />
+            <span>+212 522 30 52 36</span>
+          </a>
+        </div>
+        <div className="flex space-x-4">
+          {socialIcons.map((social, idx) => (
+            <a
+              key={idx}
+              href={social.link}
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-white hover:bg-red-600 transition-all duration-300"
             >
-              {isMenuOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
+              <FontAwesomeIcon icon={social.icon} />
+            </a>
+          ))}
+        </div>
+      </div>
 
-          {/* Navigation Links - Desktop */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navItems2.map((item, index) => (
-              <div key={index}>
-                {item.secure === "link" ? (
-                  <Link
-                    to={item.Link}
-                    className="text-black hover:text-sky-800 transition-colors duration-200 font-medium"
-                  >
-                    {item.title}
-                  </Link>
-                ) : (
-                  <a
-                    href={item.Link}
-                    className="text-black hover:text-sky-800 transition-colors duration-200 font-medium"
-                  >
-                    {item.title}
-                  </a>
-                )}
-              </div>
+      {/* Main Nav */}
+      <div className="container mx-auto flex justify-between items-center px-4 py-3">
+        <img src={IMAGE} alt="Logo" className="h-10 md:h-14 transition-transform hover:scale-105 cursor-pointer" />
+        {/* Mobile Menu Button */}
+        <button
+          className="p-2 text-black rounded-md md:hidden"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <FontAwesomeIcon icon={isMobileMenuOpen ? faXmark : faBars} className="w-6 h-6" />
+        </button>
+        {/* Desktop Menu */}
+        <div className="hidden md:flex space-x-8">
+          {menuItems.map((item, idx) => (
+            <a
+              key={idx}
+              href={item.path}
+              className={`font-medium transition-colors ${
+                scrolled ? 'text-black hover:text-red-600' : 'text-white hover:text-red-300'
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed inset-0 bg-white/90 backdrop-blur-md z-40 transition-transform duration-300 ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col h-full py-6 px-4">
+          <button
+            className="absolute top-4 right-4 p-2 rounded-md text-black"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <FontAwesomeIcon icon={faXmark} className="w-6 h-6" />
+          </button>
+
+          {/* Navigation Links */}
+          <nav className="mt-16 flex flex-col space-y-4">
+            {menuItems.map((item, idx) => (
+              <a
+                key={idx}
+                href={item.path}
+                className="block text-lg font-medium text-black hover:text-red-600 transition-colors"
+              >
+                {item.label}
+              </a>
             ))}
-          </div>
+          </nav>
 
-          {/* Navigation Links - Mobile */}
-          {isMenuOpen && (
-            <div className="absolute top-full left-0 w-full bg-white md:hidden shadow-lg">
-              <div className="flex flex-col items-center py-4 space-y-4">
-                {navItems2.map((item, index) =>
-                  item.secure === "link" ? (
-                    <Link
-                      key={index}
-                      to={item.Link}
-                      className="text-black hover:text-sky-800 transition-colors duration-200 font-medium"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.title}
-                    </Link>
-                  ) : (
-                    <a
-                      key={index}
-                      href={item.Link}
-                      className="text-black hover:text-sky-800 transition-colors duration-200 font-medium"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.title}
-                    </a>
-                  )
-                )}
-
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors duration-200">
-                  Contactez
-                </button>
-              </div>
+          {/* Social Links and Contact Info */}
+          <div className="mt-auto pt-6 border-t border-gray-200">
+            <div className="flex justify-center space-x-4 mb-4">
+              {socialIcons.map((social, idx) => (
+                <a
+                  key={idx}
+                  href={social.link}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-700 text-white hover:bg-red-600 transition-all duration-300"
+                >
+                  <FontAwesomeIcon icon={social.icon} />
+                </a>
+              ))}
             </div>
-          )}
-
-          {/* Bouton de connexion - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button className="px-4 py-2 bg-sky-800 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors duration-200">
-              Contactez
-            </button>
+            <div className="text-center text-sm space-y-2">
+              <a href="mailto:contact@abscompetences.com" className="text-gray-700 hover:text-red-600 block">
+                <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+                contact@abscompetences.com
+              </a>
+              <a href="tel:+212522305236" className="text-gray-700 hover:text-red-600 block">
+                <FontAwesomeIcon icon={faPhone} className="mr-2" />
+                +212 522 30 52 36
+              </a>
+            </div>
           </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 };
 
-export default Navbar;
+export default NavigationBar;
