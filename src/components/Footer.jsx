@@ -1,227 +1,125 @@
 import React from "react";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Twitter,
-  ArrowRight,
-} from "lucide-react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faTwitter, faLinkedinIn, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { faPhone, faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import 'leaflet/dist/leaflet.css';
 
-const ContactFooter = () => {
-  const contactInfo = {
-    email: "sovetudes2022@gmail.com",
-    phones: [
-      { country: "International", number: "+242 064 671 551" },
-      { country: "Maroc", number: "+212 066 984 6826" },
-      { country: "Congo", number: "+242 065 181 300" },
-    ],
-    address: "Arrondissement 4, Quartier Songolo, devant, République du Congo",
-  };
-
+const Footer = () => {
   const socialLinks = [
-    { icon: Facebook, url: "#", label: "Facebook" },
-    { icon: Instagram, url: "#", label: "Instagram" },
-    { icon: Linkedin, url: "#", label: "LinkedIn" },
-    { icon: Twitter, url: "#", label: "Twitter" },
+    { icon: faFacebookF, label: "Facebook", url: "#" },
+    { icon: faTwitter, label: "Twitter", url: "#" },
+    { icon: faLinkedinIn, label: "LinkedIn", url: "#" },
+    { icon: faInstagram, label: "Instagram", url: "#" },
   ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Votre message a été envoyé !");
-  };
+  const quickLinks = [
+    { name: "Accueil", url: "/" },
+    { name: "Nos Valeurs", url: "/nos-valeurs" },
+    { name: "Services", url: "/services" },
+    { name: "Contact", url: "/contact" },
+  ];
+
+  // Coordonnées de Casablanca
+  const casablancaCoordinates = [33.5731, -7.5898];
 
   return (
-    <footer className="relative bg-gradient-to-b from-blue-950 to-slate-900">
-      {/* Effet de lumière */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
-      </div>
-
-      {/* Contenu principal */}
-      <div className="relative max-w-7xl mx-auto px-6 py-20">
-        <div className="flex flex-col md:flex-row gap-16">
-          {/* Section Contact */}
-          <div className="flex-1 space-y-8">
-            <div>
-              <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-teal-400 to-purple-400 bg-clip-text text-transparent">
-                Prenez Contact
-              </h2>
-              <p className="mt-4 text-gray-400 max-w-md">
-                Nous sommes là pour vous aider. Contactez-nous pour toute
-                question ou demande.
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6 max-w-md">
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Votre nom"
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition duration-300"
-                  required
-                />
-                <input
-                  type="email"
-                  placeholder="Votre email"
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition duration-300"
-                  required
-                />
-                <textarea
-                  placeholder="Votre message"
-                  rows={4}
-                  className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 transition duration-300 resize-none"
-                  required
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="group w-full bg-gradient-to-r from-blue-500 via-teal-500 to-purple-500 text-white py-4 px-8 rounded-xl font-medium text-lg hover:opacity-90 transition duration-300"
-              >
-                <span className="flex items-center justify-center">
-                  Envoyer
-                  <ArrowRight className="ml-2 transform transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-              </button>
-            </form>
-          </div>
-
-          {/* Section Informations */}
-          <div className="flex-1 space-y-16">
-            {/* Informations de contact */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-white">
-                Informations de Contact
-              </h3>
-
-              <div className="space-y-8">
+    <footer className="bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <div className="container mx-auto px-4">
+        {/* Section principale */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
+          {/* À propos */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
+              ABS Compétences
+            </h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Votre partenaire pour le développement professionnel et la formation.
+              Nous vous accompagnons dans votre évolution professionnelle.
+            </p>
+            <div className="flex space-x-4">
+              {socialLinks.map((social, index) => (
                 <a
-                  href={`mailto:${contactInfo.email}`}
-                  className="flex items-center group text-gray-400 hover:text-white transition duration-300"
+                  key={index}
+                  href={social.url}
+                  aria-label={social.label}
+                  className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center hover:bg-red-600 transition-colors duration-300"
                 >
-                  <span className="flex items-center justify-center w-12 h-12 bg-white/5 rounded-lg group-hover:bg-blue-500/20 transition duration-300">
-                    <Mail className="w-5 h-5" />
-                  </span>
-                  <span className="ml-4">{contactInfo.email}</span>
+                  <FontAwesomeIcon icon={social.icon} className="text-sm" />
                 </a>
-
-                {contactInfo.phones.map((phone, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center group text-gray-400 hover:text-white transition duration-300"
-                  >
-                    <span className="flex items-center justify-center w-12 h-12 bg-white/5 rounded-lg group-hover:bg-purple-500/20 transition duration-300">
-                      <Phone className="w-5 h-5" />
-                    </span>
-                    <span className="ml-4">
-                      <span className="block text-sm text-gray-500">
-                        {phone.country}
-                      </span>
-                      {phone.number}
-                    </span>
-                  </div>
-                ))}
-
-                <div className="flex items-start group text-gray-400 hover:text-white transition duration-300">
-                  <span className="flex items-center justify-center w-12 h-12 bg-white/5 rounded-lg group-hover:bg-teal-500/20 transition duration-300">
-                    <MapPin className="w-5 h-5" />
-                  </span>
-                  <span className="ml-4">{contactInfo.address}</span>
-                </div>
-              </div>
+              ))}
             </div>
+          </div>
 
-            {/* Réseaux sociaux */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold text-white">Suivez-nous</h3>
-              <div className="flex space-x-4">
-                {socialLinks.map(({ icon: Icon, url, label }, index) => (
+          {/* Liens rapides */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-red-500">Liens Rapides</h3>
+            <ul className="space-y-2">
+              {quickLinks.map((link, index) => (
+                <li key={index}>
                   <a
-                    key={index}
-                    href={url}
-                    aria-label={label}
-                    className="flex items-center justify-center w-12 h-12 bg-white/5 rounded-lg hover:bg-white/10 transform hover:scale-110 transition duration-300"
+                    href={link.url}
+                    className="text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-300 flex items-center"
                   >
-                    <Icon className="w-5 h-5 text-gray-400 hover:text-white transition duration-300" />
+                    <span className="hover:pl-2 transition-all duration-300">{link.name}</span>
                   </a>
-                ))}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-red-500">Contact</h3>
+            <div className="space-y-4">
+              <a href="tel:+212 522 30 52 36" className="flex items-center text-gray-400 hover:text-white transition-colors duration-300">
+                <FontAwesomeIcon icon={faPhone} className="mr-3 text-red-500" />
+                <span>+212 522 30 52 36</span>
+              </a>
+              <a href="mailto:contact@abscompetences.com" className="flex items-center text-gray-400 hover:text-white transition-colors duration-300">
+                <FontAwesomeIcon icon={faEnvelope} className="mr-3 text-red-500" />
+                <span>contact@abscompetences.com</span>
+              </a>
+              <div className="flex items-start text-gray-400">
+                <FontAwesomeIcon icon={faLocationDot} className="mr-3 mt-1 text-red-500" />
+                <span>39, rue de Lille - N°4 Emile Zola<br />Belvédère 20300<br />Casablanca, Maroc</span>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Navigation rapide */}
-        <div className="mt-20 border-t border-white/10 pt-12">
-          <div className="flex flex-wrap justify-between gap-8">
-            <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-white">Services</h4>
-              <ul className="space-y-3">
-                {["Conseil", "Formation", "Accompagnement", "Support"].map(
-                  (item) => (
-                    <li key={item}>
-                      <a
-                        href="#"
-                        className="text-gray-400 hover:text-white transition duration-300"
-                      >
-                        {item}
-                      </a>
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-white">Entreprise</h4>
-              <ul className="space-y-3">
-                {["À propos", "Carrières", "Partenaires", "Blog"].map(
-                  (item) => (
-                    <li key={item}>
-                      <a
-                        href="#"
-                        className="text-gray-400 hover:text-white transition duration-300"
-                      >
-                        {item}
-                      </a>
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-white">Légal</h4>
-              <ul className="space-y-3">
-                {["Mentions légales", "Confidentialité", "CGU", "Cookies"].map(
-                  (item) => (
-                    <li key={item}>
-                      <a
-                        href="#"
-                        className="text-gray-400 hover:text-white transition duration-300"
-                      >
-                        {item}
-                      </a>
-                    </li>
-                  )
-                )}
-              </ul>
+          {/* Carte */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-red-500">Localisation</h3>
+            <div className="h-48 rounded-lg overflow-hidden">
+              <MapContainer 
+                center={casablancaCoordinates} 
+                zoom={13} 
+                style={{ height: "100%", width: "100%" }}
+                zoomControl={false}
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; OpenStreetMap'
+                />
+                <Marker position={casablancaCoordinates}>
+                  <Popup>
+                    ABS Compétences<br />Casablanca
+                  </Popup>
+                </Marker>
+              </MapContainer>
             </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-8 border-t border-white/10">
-          <p className="text-center text-gray-400">
-            © 2024 SovEtudes. Tous droits réservés.
-          </p>
+        <div className="border-t border-gray-700 py-6">
+          <div className="text-center text-sm text-gray-400">
+            &copy; {new Date().getFullYear()} ABS Compétences. Tous droits réservés.
+          </div>
         </div>
       </div>
     </footer>
   );
 };
 
-export default ContactFooter;
+export default Footer;
