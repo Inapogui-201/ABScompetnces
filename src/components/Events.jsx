@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import COACHING from '../assets/images/coaching.jpeg'
+import FORMATION from '../assets/images/Formation.jpg'
+import CONSEIL from '../assets/images/conseil & accomp.jpg'
+import TEAM from '../assets/images/Team.jpg'
 import {
   Calendar,
   MapPin,
@@ -10,132 +14,137 @@ import {
   Heart,
   Share2,
   BookOpen,
+  GraduationCap,
+  Target,
+  Briefcase,
+  Users as UsersGroup
 } from "lucide-react";
 
-// Converted from TypeScript interface to PropTypes or just a comment
-// Defining the shape of an event object
-const EventPropTypes = {
-  id: 0,
-  title: "",
-  date: "",
-  time: "",
-  location: "",
-  category: "",
-  image: "",
-  rating: 0,
-  price: "",
-  spots: 0,
-  description: "",
-  highlights: [],
-};
-
-const EventsShowcase = () => {
-  const [selectedEvent, setSelectedEvent] = useState(null);
+const ServicesShowcase = () => {
+  const [selectedService, setSelectedService] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
-  const [likedEvents, setLikedEvents] = useState([]);
+  const [likedServices, setLikedServices] = useState([]);
 
-  const events = [
+  const services = [
     {
       id: 1,
-      title: "Festival International d'Innovation",
-      date: "15 Décembre 2024",
-      time: "10:00 - 20:00",
-      location: "Palais des Congrès, Paris",
-      category: "Innovation",
-      image: "/images/img1.jpg",
+      title: "Formation",
+      date: "Disponible toute l'année",
+      time: "Flexible",
+      location: "En présentiel ou à distance",
+      category: "Formation",
+      image: FORMATION,
       rating: 4.8,
-      price: "Gratuit",
-      spots: 150,
-      description:
-        "Rejoignez-nous pour une journée exceptionnelle dédiée à l'innovation et aux technologies émergentes.",
+      price: "Sur devis",
+      spots: "Illimité",
+      description: "Grâce à notre savoir-faire renforcé par des intervenants expérimentés hautement qualifiés en matière de pédagogie proactive et de proximité...",
       highlights: [
-        "Conférences inspirantes",
-        "Ateliers pratiques",
-        "Networking international",
+        "Formateurs experts",
+        "Pédagogie proactive",
+        "Accompagnement personnalisé",
       ],
+      icon: GraduationCap
     },
     {
       id: 2,
-      title: "Master Class Leadership",
-      date: "22 Janvier 2025",
-      time: "14:00 - 18:00",
-      location: "Campus Excellence",
-      category: "Formation",
-      image: "/images/img2.jpg",
+      title: "Conseil et Accompagnement",
+      date: "Sur rendez-vous",
+      time: "Adapté à vos besoins",
+      location: "Sur site ou en ligne",
+      category: "Conseil",
+      image: CONSEIL,
       rating: 4.9,
-      price: "290€",
-      spots: 30,
-      description:
-        "Une expérience unique pour développer vos compétences en leadership avec des experts reconnus.",
+      price: "Sur mesure",
+      spots: "Personnalisé",
+      description: "Un service d'accompagnement de haute qualité, personnalisé et adaptable en fonction de vos besoins. Nos Experts-consultants recommandent des solutions...",
       highlights: [
-        "Sessions personnalisées",
-        "Études de cas réels",
-        "Certification premium",
+        "Expertise personnalisée",
+        "Solutions adaptées",
+        "Accompagnement continu",
       ],
+      icon: Briefcase
     },
     {
       id: 3,
-      title: "Global Tech Summit",
-      date: "10 Février 2025",
-      time: "09:00 - 17:00",
-      location: "Digital Hub",
-      category: "Technologie",
-      image: "/images/img3.jpg",
+      title: "Coaching Individuel",
+      date: "Planning flexible",
+      time: "Sessions personnalisées",
+      location: "En présentiel ou distanciel",
+      category: "Coaching",
+      image: COACHING,
       rating: 4.7,
-      price: "180€",
-      spots: 200,
-      description:
-        "Le plus grand rassemblement tech de l'année avec des intervenants de renommée mondiale.",
+      price: "Sur devis",
+      spots: "Individual",
+      description: "Le coaching implique généralement l'accompagnement individuel ou collectif pour le développement personnel et professionnel.",
       highlights: [
-        "Keynotes exclusifs",
-        "Démonstrations live",
-        "Networking VIP",
+        "Accompagnement individuel",
+        "Développement personnel",
+        "Objectifs personnalisés",
       ],
+      icon: Target
+    },
+    {
+      id: 4,
+      title: "Coaching Collectif",
+      date: "Sessions régulières",
+      time: "Adaptable",
+      location: "En présentiel ou distanciel",
+      category: "Coaching",
+      image: TEAM,
+      rating: 4.8,
+      price: "Sur devis",
+      spots: "Groupes",
+      highlights: [
+        "Dynamique de groupe",
+        "Développement collectif",
+        "Objectifs partagés",
+      ],
+      icon: UsersGroup
     },
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (!animating) {
-        setActiveIndex((current) => (current + 1) % events.length);
+        setActiveIndex((current) => (current + 1) % services.length);
       }
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [animating, events.length]);
+  }, [animating, services.length]);
 
-  const handleEventClick = (event) => {
+  const handleServiceClick = (service) => {
     setAnimating(true);
-    setSelectedEvent(event);
+    setSelectedService(service);
     setTimeout(() => setAnimating(false), 500);
   };
 
-  const toggleLike = (eventId) => {
-    setLikedEvents((prev) =>
-      prev.includes(eventId)
-        ? prev.filter((id) => id !== eventId)
-        : [...prev, eventId]
+  const toggleLike = (serviceId) => {
+    setLikedServices((prev) =>
+      prev.includes(serviceId)
+        ? prev.filter((id) => id !== serviceId)
+        : [...prev, serviceId]
     );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 to-indigo-50 py-16">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 py-8 md:py-16">
       {/* Hero Section avec Carousel */}
-      <div className="max-w-7xl mx-auto px-4 mb-16">
-        <div className="text-center mb-16 opacity-0 animate-fade-in">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent mb-6">
-            Événements Exceptionnels
+      <div className="max-w-7xl mx-auto px-4 mb-8 md:mb-16">
+        <div className="text-center mb-8 md:mb-16 opacity-0 animate-fade-in">
+          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent mb-4 md:mb-6">
+            Nos Services
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Découvrez des expériences uniques qui transformeront votre parcours
+          <p className="text-lg md:text-xl text-black max-w-2xl mx-auto px-4">
+            Des solutions adaptées à vos besoins professionnels
           </p>
         </div>
 
-        <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl">
-          {events.map((event, idx) => (
+        <div className="relative h-[400px] md:h-[600px] rounded-xl md:rounded-2xl overflow-hidden shadow-2xl">
+          {services.map((service, idx) => (
             <div
-              key={event.id}
+              key={service.id}
               className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
                 idx === activeIndex
                   ? "opacity-100 translate-x-0"
@@ -144,30 +153,30 @@ const EventsShowcase = () => {
             >
               <div className="relative h-full">
                 <img
-                  src={event.image}
-                  alt={event.title}
+                  src={service.image}
+                  alt={service.title}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 text-white">
                   <div className="max-w-3xl">
-                    <div className="mb-4">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-violet-500/80 text-sm font-medium">
-                        {event.category}
+                    <div className="mb-2 md:mb-4">
+                      <span className="inline-flex items-center px-2 py-1 md:px-3 md:py-1 rounded-full bg-red-500/80 text-xs md:text-sm font-medium">
+                        {service.category}
                       </span>
                     </div>
-                    <h2 className="text-4xl font-bold mb-4">{event.title}</h2>
-                    <p className="text-lg text-gray-200 mb-6">
-                      {event.description}
+                    <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4">{service.title}</h2>
+                    <p className="text-sm md:text-lg text-gray-200 mb-4 md:mb-6 line-clamp-2 md:line-clamp-none">
+                      {service.description}
                     </p>
-                    <div className="flex items-center space-x-6">
+                    <div className="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-6">
                       <div className="flex items-center">
-                        <Calendar className="w-5 h-5 mr-2" />
-                        <span>{event.date}</span>
+                        <Calendar className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                        <span className="text-sm md:text-base">{service.date}</span>
                       </div>
                       <div className="flex items-center">
-                        <MapPin className="w-5 h-5 mr-2" />
-                        <span>{event.location}</span>
+                        <MapPin className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                        <span className="text-sm md:text-base">{service.location}</span>
                       </div>
                     </div>
                   </div>
@@ -176,11 +185,11 @@ const EventsShowcase = () => {
             </div>
           ))}
 
-          <div className="absolute bottom-6 right-6 flex space-x-2">
-            {events.map((_, idx) => (
+          <div className="absolute bottom-4 right-4 flex space-x-2">
+            {services.map((_, idx) => (
               <button
                 key={idx}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
                   idx === activeIndex
                     ? "bg-white scale-125"
                     : "bg-white/50 hover:bg-white/75"
@@ -192,83 +201,83 @@ const EventsShowcase = () => {
         </div>
       </div>
 
-      {/* Liste des événements */}
+      {/* Liste des services */}
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {events.map((event) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          {services.map((service) => (
             <div
-              key={event.id}
+              key={service.id}
               className="group bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <div className="relative">
                 <img
-                  src={event.image}
-                  alt={event.title}
-                  className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-40 md:h-48 object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="absolute top-4 right-4 flex space-x-2">
+                <div className="absolute top-2 md:top-4 right-2 md:right-4 flex space-x-2">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      toggleLike(event.id);
+                      toggleLike(service.id);
                     }}
-                    className={`p-2 rounded-full backdrop-blur-md transition-all duration-300 ${
-                      likedEvents.includes(event.id)
+                    className={`p-1.5 md:p-2 rounded-full backdrop-blur-md transition-all duration-300 ${
+                      likedServices.includes(service.id)
                         ? "bg-red-500 text-white"
                         : "bg-white/70 text-gray-700 hover:bg-white"
                     }`}
                   >
-                    <Heart className="w-5 h-5" />
+                    <Heart className="w-4 h-4 md:w-5 md:h-5" />
                   </button>
-                  <button className="p-2 rounded-full bg-white/70 text-gray-700 backdrop-blur-md hover:bg-white transition-all duration-300">
-                    <Share2 className="w-5 h-5" />
+                  <button className="p-1.5 md:p-2 rounded-full bg-white/70 text-gray-700 backdrop-blur-md hover:bg-white transition-all duration-300">
+                    <Share2 className="w-4 h-4 md:w-5 md:h-5" />
                   </button>
                 </div>
-                <div className="absolute bottom-4 left-4">
-                  <span className="px-3 py-1 rounded-full bg-white/90 text-violet-600 text-sm font-medium">
-                    {event.price}
+                <div className="absolute bottom-2 md:bottom-4 left-2 md:left-4">
+                  <span className="px-2 py-1 md:px-3 md:py-1 rounded-full bg-white/90 text-red-600 text-xs md:text-sm font-medium">
+                    {service.price}
                   </span>
                 </div>
               </div>
 
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-violet-600">
-                    {event.category}
+              <div className="p-4 md:p-6">
+                <div className="flex items-center justify-between mb-2 md:mb-3">
+                  <span className="text-xs md:text-sm font-medium text-red-600">
+                    {service.category}
                   </span>
                   <div className="flex items-center">
-                    <Star className="w-4 h-4 text-yellow-400 mr-1" />
-                    <span className="text-sm text-gray-600">
-                      {event.rating}
+                    <Star className="w-3 h-3 md:w-4 md:h-4 text-red-400 mr-1" />
+                    <span className="text-xs md:text-sm text-red-600">
+                      {service.rating}
                     </span>
                   </div>
                 </div>
 
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {event.title}
+                <h3 className="text-lg md:text-xl font-semibold text-black mb-2">
+                  {service.title}
                 </h3>
 
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-gray-600">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    <span className="text-sm">{event.date}</span>
+                <div className="space-y-1 md:space-y-2 mb-4">
+                  <div className="flex items-center text-black">
+                    <Calendar className="w-3 h-3 md:w-4 md:h-4 mr-2" />
+                    <span className="text-xs md:text-sm">{service.date}</span>
                   </div>
-                  <div className="flex items-center text-gray-600">
-                    <Clock className="w-4 h-4 mr-2" />
-                    <span className="text-sm">{event.time}</span>
+                  <div className="flex items-center text-black">
+                    <Clock className="w-3 h-3 md:w-4 md:h-4 mr-2" />
+                    <span className="text-xs md:text-sm">{service.time}</span>
                   </div>
-                  <div className="flex items-center text-gray-600">
-                    <MapPin className="w-4 h-4 mr-2" />
-                    <span className="text-sm">{event.location}</span>
+                  <div className="flex items-center text-black">
+                    <MapPin className="w-3 h-3 md:w-4 md:h-4 mr-2" />
+                    <span className="text-xs md:text-sm line-clamp-1">{service.location}</span>
                   </div>
                 </div>
 
                 <button
-                  onClick={() => handleEventClick(event)}
-                  className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:opacity-90 flex items-center justify-center group"
+                  onClick={() => handleServiceClick(service)}
+                  className="w-full bg-gradient-to-r from-red-500 to-red-700 text-white px-3 py-2 md:px-4 md:py-2 rounded-lg text-sm md:text-base font-medium transition-all duration-300 hover:shadow-lg hover:opacity-90 flex items-center justify-center group"
                 >
-                  Découvrir
-                  <ChevronRight className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                  En savoir plus
+                  <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
               </div>
             </div>
@@ -277,69 +286,68 @@ const EventsShowcase = () => {
       </div>
 
       {/* Modal Détaillé */}
-      {selectedEvent && (
+      {selectedService && (
         <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          onClick={() => setSelectedEvent(null)}
+          onClick={() => setSelectedService(null)}
         >
           <div
-            className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-xl md:rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative">
               <img
-                src={selectedEvent.image}
-                alt={selectedEvent.title}
-                className="w-full h-72 object-cover rounded-t-2xl"
+                src={selectedService.image}
+                alt={selectedService.title}
+                className="w-full h-48 md:h-72 object-cover rounded-t-xl md:rounded-t-2xl"
               />
               <button
-                onClick={() => setSelectedEvent(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                onClick={() => setSelectedService(null)}
+                className="absolute top-2 md:top-4 right-2 md:right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5 md:w-6 md:h-6" />
               </button>
             </div>
 
-            <div className="p-8">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-3xl font-bold text-gray-900">
-                  {selectedEvent.title}
+            <div className="p-4 md:p-8">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold text-red-600">
+                  {selectedService.title}
                 </h2>
-                <span className="px-4 py-2 rounded-full bg-violet-100 text-violet-600 font-medium">
-                  {selectedEvent.price}
+                <span className="px-4 py-2 rounded-full bg-red-600 text-white font-medium text-sm md:text-base">
+                  {selectedService.price}
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-6 md:mb-8">
                 <div className="space-y-4">
-                  <p className="text-gray-600 leading-relaxed">
-                    {selectedEvent.description}
+                  <p className="text-sm md:text-base text-black leading-relaxed">{selectedService.description}
                   </p>
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center">
-                      <Star className="w-5 h-5 text-yellow-400 mr-1" />
-                      <span className="font-medium">
-                        {selectedEvent.rating}
+                      <Star className="w-4 h-4 md:w-5 md:h-5 text-red-400 mr-1" />
+                      <span className="text-sm md:text-base font-medium text-black">
+                        {selectedService.rating}
                       </span>
                     </div>
-                    <div className="flex items-center">
-                      <Users className="w-5 h-5 text-gray-500 mr-1" />
-                      <span>{selectedEvent.spots} places</span>
+                    <div className="flex items-center text-black">
+                      <Users className="w-4 h-4 md:w-5 md:h-5 mr-1" />
+                      <span className="text-sm md:text-base">{selectedService.spots}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <div className="bg-red-50 rounded-lg md:rounded-xl p-4 md:p-6">
+                  <h3 className="text-base md:text-lg font-semibold text-red-600 mb-3 md:mb-4">
                     Points clés
                   </h3>
-                  <ul className="space-y-3">
-                    {selectedEvent.highlights.map((highlight, index) => (
+                  <ul className="space-y-2 md:space-y-3">
+                    {selectedService.highlights.map((highlight, index) => (
                       <li
                         key={index}
-                        className="flex items-center text-gray-700"
+                        className="flex items-center text-black text-sm md:text-base"
                       >
-                        <BookOpen className="w-5 h-5 text-violet-500 mr-3" />
+                        <BookOpen className="w-4 h-4 md:w-5 md:h-5 text-red-500 mr-2 md:mr-3 flex-shrink-0" />
                         {highlight}
                       </li>
                     ))}
@@ -347,15 +355,15 @@ const EventsShowcase = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col md:flex-row items-center gap-4 md:justify-between">
                 <button
-                  className="px-6 py-3 rounded-lg border-2 border-violet-600 text-violet-600 font-medium hover:bg-violet-50 transition-colors"
-                  onClick={() => setSelectedEvent(null)}
+                  className="w-full md:w-auto px-4 md:px-6 py-2 md:py-3 rounded-lg border-2 border-red-600 text-black text-sm md:text-base font-medium hover:bg-red-50 transition-colors"
+                  onClick={() => setSelectedService(null)}
                 >
                   Retour
                 </button>
-                <button className="px-6 py-3 rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium hover:opacity-90 transition-opacity">
-                  Réserver ma place
+                <button className="w-full md:w-auto px-4 md:px-6 py-2 md:py-3 rounded-lg bg-gradient-to-r from-red-500 to-red-700 text-white text-sm md:text-base font-medium hover:opacity-90 transition-opacity">
+                  Contacter un expert
                 </button>
               </div>
             </div>
@@ -366,4 +374,4 @@ const EventsShowcase = () => {
   );
 };
 
-export default EventsShowcase;
+export default ServicesShowcase;
